@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function AuthForm({ onSignup, onLogin }) {
+export default function AuthForm({ onSignup, onLogin, error }) {
   const [mode, setMode] = useState("signup");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -11,12 +11,14 @@ export default function AuthForm({ onSignup, onLogin }) {
     <>
       <div className="auth-tabs">
         <button
+          type="button"
           className={mode === "signup" ? "active" : ""}
           onClick={() => setMode("signup")}
         >
           Signup
         </button>
         <button
+          type="button"
           className={mode === "login" ? "active" : ""}
           onClick={() => setMode("login")}
         >
@@ -31,10 +33,30 @@ export default function AuthForm({ onSignup, onLogin }) {
             onSignup({ username, email, password });
           }}
         >
-          <input placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-          <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-          <button className="submit-btn">Create Account</button>
+          <input
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            placeholder="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          {/* 👇 Display backend error if present */}
+          {error && <p className="error-message">{error}</p>}
+
+          <button type="submit" className="submit-btn">
+            Create Account
+          </button>
         </form>
       ) : (
         <form
@@ -43,9 +65,24 @@ export default function AuthForm({ onSignup, onLogin }) {
             onLogin({ identifier, password });
           }}
         >
-          <input placeholder="Email or Username" onChange={(e) => setIdentifier(e.target.value)} />
-          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-          <button className="submit-btn">Login</button>
+          <input
+            placeholder="Email or Username"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          {/* 👇 Display backend error if present */}
+          {error && <p className="error-message">{error}</p>}
+
+          <button type="submit" className="submit-btn">
+            Login
+          </button>
         </form>
       )}
     </>
