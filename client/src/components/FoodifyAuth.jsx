@@ -6,7 +6,6 @@ export default function FoodifyAuth() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
-  // Check if user is already logged in on page load
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -22,12 +21,11 @@ export default function FoodifyAuth() {
   const handleSignup = async (data) => {
     try {
       setError("");
-      const res = await signup(data); // Try signing up
+      const res = await signup(data); 
       setUser(res.data.user);
       alert(`Logged in as ${res.data.user.username}`);
     } catch (err) {
       if (err.response?.status === 409) {
-        // User already exists → try login
         try {
           const loginRes = await login({ identifier: data.email, password: data.password });
           setUser(loginRes.data.user);

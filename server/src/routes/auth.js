@@ -6,7 +6,6 @@ import { signToken } from "../utils/jwt.js";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-// ✅ Signup route
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -32,8 +31,8 @@ router.post("/signup", async (req, res) => {
 
     res.cookie("access_token", token, {
       httpOnly: true,
-      sameSite: "none", // ✅ cross-domain
-      secure: true,     // ✅ required for HTTPS
+      sameSite: "none", 
+      secure: true,    
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -43,7 +42,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// ✅ Login route
+
 router.post("/login", async (req, res) => {
   try {
     const { identifier, password } = req.body;
@@ -63,8 +62,8 @@ router.post("/login", async (req, res) => {
 
     res.cookie("access_token", token, {
       httpOnly: true,
-      sameSite: "none", // ✅ cross-domain
-      secure: true,     // ✅ required for HTTPS
+      sameSite: "none", 
+      secure: true,    
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -74,16 +73,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// ✅ Logout
+
 router.post("/logout", (req, res) => {
   res.clearCookie("access_token", {
-    sameSite: "none", // ✅ match cookie options
+    sameSite: "none", 
     secure: true,
   });
   res.json({ message: "Logged out" });
 });
 
-// ✅ Get current user
+
 router.get("/me", (req, res) => {
   try {
     const token = req.cookies.access_token;
