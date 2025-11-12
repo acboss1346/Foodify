@@ -7,7 +7,7 @@ const BASE_URL =
 
 export const API = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, 
+  withCredentials: true,
 });
 
 export const signup = (data) => API.post("/auth/signup", data);

@@ -54,6 +54,7 @@ export default function AuthForm({ onSignup, onLogin, error }) {
           
           {error && <p className="error-message">{error}</p>}
 
+
           <button type="submit" className="submit-btn">
             Create Account
           </button>

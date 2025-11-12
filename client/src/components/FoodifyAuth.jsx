@@ -6,6 +6,7 @@ export default function FoodifyAuth() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
+  // On page load, check if user is already logged in
   useEffect(() => {
     getUser()
       .then((res) => setUser(res.data.user))
@@ -15,9 +16,9 @@ export default function FoodifyAuth() {
   const handleSignup = async (data) => {
     try {
       setError("");
-      await signup(data);
-      const res = await getUser();
+      const res = await signup(data); // ✅ use response directly
       setUser(res.data.user);
+      alert(`Logged in as ${res.data.user.username}`); // ✅ show popup
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed. Try again.");
     }
@@ -26,9 +27,9 @@ export default function FoodifyAuth() {
   const handleLogin = async (data) => {
     try {
       setError("");
-      await login(data);
-      const res = await getUser();
+      const res = await login(data); // ✅ use response directly
       setUser(res.data.user);
+      alert(`Logged in as ${res.data.user.username}`); // ✅ show popup
     } catch (err) {
       setError(err.response?.data?.message || "Invalid credentials.");
     }
@@ -37,6 +38,7 @@ export default function FoodifyAuth() {
   const handleLogout = async () => {
     await logout();
     setUser(null);
+    alert("Logged out");
   };
 
   return (
@@ -56,7 +58,6 @@ export default function FoodifyAuth() {
             <p style={{ textAlign: "center", marginBottom: "20px" }}>
               Logged in as: <b>{user.username}</b>
             </p>
-
             <button className="submit-btn" onClick={handleLogout}>
               Logout
             </button>
