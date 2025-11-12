@@ -51,7 +51,7 @@ export default function AuthForm({ onSignup, onLogin, error }) {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {/* 👇 Display backend error if present */}
+          
           {error && <p className="error-message">{error}</p>}
 
           <button type="submit" className="submit-btn">
@@ -77,7 +77,7 @@ export default function AuthForm({ onSignup, onLogin, error }) {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {/* 👇 Display backend error if present */}
+
           {error && <p className="error-message">{error}</p>}
 
           <button type="submit" className="submit-btn">
