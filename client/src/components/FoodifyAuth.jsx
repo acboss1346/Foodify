@@ -6,39 +6,60 @@ export default function FoodifyAuth() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
-  // On page load, check if user is already logged in
+  // Check if user is already logged in on page load
   useEffect(() => {
-    getUser()
-      .then((res) => setUser(res.data.user))
-      .catch(() => {});
+    async function fetchUser() {
+      try {
+        const res = await getUser();
+        setUser(res.data.user);
+      } catch {
+        setUser(null);
+      }
+    }
+    fetchUser();
   }, []);
 
   const handleSignup = async (data) => {
     try {
       setError("");
-      const res = await signup(data); // ✅ use response directly
+      const res = await signup(data); // Try signing up
       setUser(res.data.user);
-      alert(`Logged in as ${res.data.user.username}`); // ✅ show popup
+      alert(`Logged in as ${res.data.user.username}`);
     } catch (err) {
-      setError(err.response?.data?.message || "Signup failed. Try again.");
+      if (err.response?.status === 409) {
+        // User already exists → try login
+        try {
+          const loginRes = await login({ identifier: data.email, password: data.password });
+          setUser(loginRes.data.user);
+          alert(`Logged in as ${loginRes.data.user.username}`);
+        } catch {
+          setError("User already exists but login failed.");
+        }
+      } else {
+        setError(err.response?.data?.message || "Signup failed. Try again.");
+      }
     }
   };
 
   const handleLogin = async (data) => {
     try {
       setError("");
-      const res = await login(data); // ✅ use response directly
+      const res = await login(data);
       setUser(res.data.user);
-      alert(`Logged in as ${res.data.user.username}`); // ✅ show popup
+      alert(`Logged in as ${res.data.user.username}`);
     } catch (err) {
       setError(err.response?.data?.message || "Invalid credentials.");
     }
   };
 
   const handleLogout = async () => {
-    await logout();
-    setUser(null);
-    alert("Logged out");
+    try {
+      await logout();
+      setUser(null);
+      alert("Logged out");
+    } catch {
+      setError("Logout failed. Try again.");
+    }
   };
 
   return (

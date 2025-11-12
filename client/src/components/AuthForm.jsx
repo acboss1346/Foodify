@@ -37,23 +37,24 @@ export default function AuthForm({ onSignup, onLogin, error }) {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
           <input
             placeholder="Email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
 
-          
           {error && <p className="error-message">{error}</p>}
-
 
           <button type="submit" className="submit-btn">
             Create Account
@@ -70,14 +71,15 @@ export default function AuthForm({ onSignup, onLogin, error }) {
             placeholder="Email or Username"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
-
 
           {error && <p className="error-message">{error}</p>}
 
